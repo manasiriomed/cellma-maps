@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+ <context-param>
+  <param-name>dburl</param-name>
+  	<!--<param-value>jdbc:mysql://localhost:3310/cellma?autoReconnect=true</param-value>-->
+  	<!--<param-value>jdbc:mysql://localhost:3310/cellma_mt_hope_04_09_2014_bup?autoReconnect=true</param-value>-->
+ 	<!-- <param-value>jdbc:mysql://localhost:3310/cellma_bvi_05_09_2013?autoReconnect=true</param-value> -->
+  	<param-value>jdbc:mysql://localhost:3310/cellma_nwrha_24_10_2014?autoReconnect=true</param-value>
+ </context-param>
+ <context-param>
+  <param-name>username</param-name>
+  <param-value>root</param-value> 
+  </context-param>
+ <context-param>
+  <param-name>password</param-name>
+  <param-value>southampton6835</param-value>
+ </context-param>
+ <servlet>
+  <description>Chart database reports</description>
+  <display-name>Cellma Reports</display-name>
+  <servlet-name>cellmacharts</servlet-name>
+  <servlet-class>cellmacharts</servlet-class>
+ </servlet>
+ <servlet>
+  <description>Used to check if user is logged into Cellma and hence has permissions to see reports.</description>
+  <display-name>LoginCharts</display-name>
+  <servlet-name>LoginCharts</servlet-name>
+  <servlet-class>LoginCheck</servlet-class>
+ </servlet>
+ <servlet>
+  <description>This is the description of my J2EE component</description>
+  <display-name>This is the display name of my J2EE component</display-name>
+  <servlet-name>Logout</servlet-name>
+  <servlet-class>Logout</servlet-class>
+ </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AjaxUtilsDiagnosis</servlet-name>
+    <servlet-class>AjaxUtilsDiagnosis</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DisplayMapAjaxUtilsDiagnosis</servlet-name>
+    <servlet-class>DisplayMapAjaxUtilsDiagnosis</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AjaxUtilsReferralReasons</servlet-name>
+    <servlet-class>AjaxUtilsReferralReasons</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DisplayMapAjaxUtilsReferralReasons</servlet-name>
+    <servlet-class>DisplayMapAjaxUtilsReferralReasons</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AjaxUtilsAppointmentReasons</servlet-name>
+    <servlet-class>AjaxUtilsAppointmentReasons</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DisplayMapAjaxUtilsAppointmentReasons</servlet-name>
+    <servlet-class>DisplayMapAjaxUtilsAppointmentReasons</servlet-class>
+  </servlet>
+
+
+
+ <servlet-mapping>
+  <servlet-name>cellmacharts</servlet-name>
+  <url-pattern>/cellmacharts.do</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>LoginCharts</servlet-name>
+  <url-pattern>/LoginCharts.do</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>Logout</servlet-name>
+  <url-pattern>/Logout.do</url-pattern>
+ </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AjaxUtilsDiagnosis</servlet-name>
+    <url-pattern>/AjaxUtilsDiagnosis.do</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>DisplayMapAjaxUtilsDiagnosis</servlet-name>
+    <url-pattern>/DisplayMapAjaxUtilsDiagnosis.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DisplayMapAjaxUtilsReferralReasons</servlet-name>
+    <url-pattern>/DisplayMapAjaxUtilsReferralReasons.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AjaxUtilsReferralReasons</servlet-name>
+    <url-pattern>/AjaxUtilsReferralReasons.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AjaxUtilsAppointmentReasons</servlet-name>
+    <url-pattern>/AjaxUtilsAppointmentReasons.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DisplayMapAjaxUtilsAppointmentReasons</servlet-name>
+    <url-pattern>/DisplayMapAjaxUtilsAppointmentReasons.do</url-pattern>
+  </servlet-mapping>
+ <welcome-file-list>
+  <welcome-file>index.jsp</welcome-file>
+ </welcome-file-list>
+ <login-config>
+  <auth-method>BASIC</auth-method>
+ </login-config>
+</web-app>
