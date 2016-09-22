@@ -14,18 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-public class AjaxUtilsReferralReasons extends HttpServlet {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+@SuppressWarnings("serial")
+public class AjaxUtilsPresentingComplaints extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public AjaxUtilsReferralReasons() {
+	public AjaxUtilsPresentingComplaints() {
 		super();
 	}
 
@@ -60,7 +55,7 @@ public class AjaxUtilsReferralReasons extends HttpServlet {
 		}
 		
         //Variables for jsp file
-        String rerSearch = request.getParameter("s");
+        String diagSearch = request.getParameter("s");
         
         //This is the session for the Cellma Reports not the Cellma session
   		HttpSession session = request.getSession(false);
@@ -80,7 +75,7 @@ public class AjaxUtilsReferralReasons extends HttpServlet {
   		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 
-		if (rerSearch != null && rerSearch.length() >= 3)
+		if (diagSearch != null && diagSearch.length() >= 3)
 		{
 			out.println("<table style=\"background-color: #fff; width: 205px; font-size: 15px\">");
 			
@@ -91,59 +86,55 @@ public class AjaxUtilsReferralReasons extends HttpServlet {
 	  	        String query = "";
 	  	        
 	  	        if(estId != null){
-	  	        	query =  "SELECT *" +
-  	        				" FROM referral_reasons r, realtime_referral_reasons s" +
-  	        				" WHERE r.rer_est_id = " + estId + 
-  	        				" AND r.rer_reason LIKE '" + rerSearch + "%'" +
-  	        				" AND s.shortname = r.rer_reason" +
-  	        				" AND r.rer_reason_type = 'referred'" +
-  	        				" GROUP BY r.rer_eli_id" +
-  	        				" ORDER BY r.rer_reason ASC";
-	  	        			//System.out.println(query);
+	  	        	query = "SELECT *" +
+						   " FROM question_options qo, realtime_presenting_problems rd " +
+					 	   " WHERE qo.quo_text_summary = rd.shortname" +
+					       " AND qo.quo_est_id = "+ estId +
+					       " AND qo.quo_text_summary LIKE '" + diagSearch + "%'" +
+					       " GROUP BY rd.shortname";
 	  	        }
 	  	        else{
-	  	        	query =  "SELECT *" +
-  	        				" FROM referral_reasons r, realtime_referral_reasons s" +
-  	        				" WHERE r.rer_est_id IS NULL" +
-  	        				" AND r.rer_reason LIKE '" + rerSearch + "%'" +
-  	        				" AND s.shortname = r.rer_reason" +
-  	        				" AND r.rer_reason_type = 'referred'" +
-  	        				" GROUP BY r.rer_eli_id" +
-  	        				" ORDER BY r.rer_reason ASC";
+	  	        	query = "SELECT *" +
+							   " FROM question_options qo, realtime_presenting_problems rd " +
+						 	   " WHERE qo.quo_text_summary = rd.shortname" +
+						       " AND qo.quo_text_summary LIKE '" + diagSearch + "%'" +
+						       " GROUP BY rd.shortname";
 	  	        }
 	  	        
 	  	        ResultSet rs = stmt.executeQuery(query);
+	  	        //System.out.println(query);
 	        	
 	        	if(!rs.isBeforeFirst()){
-	        		flag = true;		
+	        		flag = true;	
 	        	}
 	        	else{
 	        		while (rs.next()) {
 	        			
-	        			Integer rerEliId = rs.getInt("r.rer_eli_id");
-	    	        	String rerEliText = rs.getString("r.rer_reason");
-	    	        	String rerReaTextSend =  rerEliId + ",'" + rerEliText + "'";
+	        			Integer qucId = rs.getInt("qo.quo_id");
+	    	        	String qucText = rs.getString("qo.quo_text_select_box");
+	    	        	String qucTextSend = qucId + ",'" + qucText + "'";
 	        		  	   
-		  	        	out.println("<tr><td align=\"center\"><a href='#' onClick=\"javascript:showMyRefReaMap(" +rerReaTextSend +");\">" + rs.getString("r.rer_reason") + "</a></td></tr>");
-	        		}
+		  	        	out.println("<tr><td align=\"center\"><a href='#' onClick=\"javascript:showMyPresentingComplaintsMap(" +qucTextSend +");\">" + rs.getString("qo.quo_text_select_box") + "</a></td></tr>");
+		  	        }
 	        	}
 	  	        
 	  	        rs.close();
 	  	        
+
 	  	    } catch (SQLException s){
 		        System.out.println("report SQL code does not execute.");
 	  	    } finally {
 	  	        if (stmt != null) { try {
 					stmt.close();
 				} catch (SQLException e) {
-					//TODO Auto-generated catch block
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} }
 	  	    }
 	  	    
 	  	    out.println("</table>");
 		}
-  	    else if(rerSearch.length() >= 1 && rerSearch.length() < 3){
+  	    else if(diagSearch.length() >= 1 && diagSearch.length() < 3){
 			out.println("<p style='font-size: 15px'>Please enter a minimum of 3 characters to search</p>");	
 		}
 		

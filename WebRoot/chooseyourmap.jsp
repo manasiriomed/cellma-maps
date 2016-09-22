@@ -97,6 +97,17 @@ $(document).ready(function(){
 							<h3>Appointment Reasons</h3>
 							<hr />
 						</td>
+						<td>&nbsp;</td>
+						<td class="tdStyler">
+							<div class="fadehover">
+								<a href="displaymapforpresentingcomplaints.jsp" target="_self">
+						            <img src="./images/map-grey.png" alt="" class="a" />
+						            <img src="./images/map-color.png" alt="" class="b" />
+						        </a>
+							</div>
+							<h3>Presenting Complaints</h3>
+							<hr />
+						</td>
 					</tr>
 					<tr><td colspan="3">&nbsp;</td></tr>	
 			</table>
@@ -113,3 +124,4 @@ $(document).ready(function(){
 	</tr>
 </table>
 </body>
+

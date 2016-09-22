@@ -49,14 +49,14 @@ public class LoginCheck extends HttpServlet {
 		        Statement statement=conn.createStatement();
 		        ResultSet resultSet=statement.executeQuery(query); 
 		        
-		        String query2 =  " SELECT EXTRACT(YEAR FROM rea_date) AS Year" +
+		        /*String query2 =  " SELECT EXTRACT(YEAR FROM rea_date) AS Year" +
    				 				 " FROM realtime_appointment_reasons r, establishments e" +
 			 					 " WHERE r.rea_est_id = e.est_id " +
 			 					 " GROUP BY Year" +
 			 					 " ORDER BY Year DESC";
 		        
 		        Statement statement2 = conn.createStatement();
-		        ResultSet resultSet2 = statement2.executeQuery(query2); 
+		        ResultSet resultSet2 = statement2.executeQuery(query2); */
 		        
 		        String query3 =  " SELECT EXTRACT(YEAR FROM ref_acceptance_date) AS Year" +
 			 				 	 " FROM realtime_referral_reasons r, establishments e" +
@@ -88,7 +88,7 @@ public class LoginCheck extends HttpServlet {
 		        
 		        //Creating a list of years applicable for each version of the AnyMaps (Diagnosis, Referral Reasons and Appointment Reasons)
 		        
-		        if(resultSet2 !=null){
+		        /*if(resultSet2 !=null){
 		        	while (resultSet2.next()){
 		        		yearAppReasons = resultSet2.getString("Year"); 
 		        		yearListAppReasons.add(yearAppReasons);
@@ -96,7 +96,7 @@ public class LoginCheck extends HttpServlet {
 		        }
 		        
 		        resultSet2.close();
-		        statement2.close();	
+		        statement2.close();	*/
 		        
 		        if(resultSet3 !=null){
 		        	while (resultSet3.next()){

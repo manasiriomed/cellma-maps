@@ -87,19 +87,22 @@ public class AjaxUtilsDiagnosis extends HttpServlet {
 	  	        
 	  	        if(estId != null){
 	  	        	query = "SELECT *" +
-						   " FROM questions_custom qc, question_options qo, question_option_questions qq" +
+						   " FROM questions_custom qc, question_options qo, question_option_questions qq, realtime_diagnosis rd " +
 					 	   " WHERE qq.quq_quo_id = qo.quo_id" +
 					       " AND qq.quq_quc_id = qc.quc_id" +
+					       " AND qc.quc_text = rd.shortname" +
 					       " AND qq.quq_est_id = "+ estId +
 					       " AND qc.quc_include != 0" +
 					       " AND qc.quc_text LIKE '" + diagSearch + "%'" +
-					       " AND qo.quo_type = 'diagnosis'";
+					       " AND qo.quo_type = 'diagnosis'"+
+					       " GROUP BY rd.shortname";
 	  	        }
 	  	        else{
 	  	        	query = "SELECT *" +
-						   " FROM questions_custom qc, question_options qo, question_option_questions qq " +
+						   " FROM questions_custom qc, question_options qo, question_option_questions qq, realtime_diagnosis rd " +
 						   " WHERE qq.quq_quo_id = qo.quo_id" +
 						   " AND qq.quq_quc_id = qc.quc_id" +
+					       " AND qc.quc_text = rd.shortname" +
 						   " AND qq.quq_est_id is NULL"+
 						   " AND qc.quc_include != 0" +
 						   " AND qc.quc_text LIKE '" + diagSearch + "%'" +

@@ -92,18 +92,20 @@ public class AjaxUtilsAppointmentReasons extends HttpServlet {
 	  	        
 	  	        if(estId != null){
 	  	        	query =  "SELECT *" +
-  	        				" FROM establishment_list_items e" +
+  	        				" FROM establishment_list_items e, realtime_appointment_reasons f" +
   	        				" WHERE e.eli_est_id = " + estId + 
   	        				" AND e.eli_text LIKE '" + appReaSearch + "%'" +
+  	        				" AND f.shortname = e.eli_text" +
   	        				" AND e.eli_app_id IN (SELECT app_id FROM application_lists WHERE e.eli_app_id = app_id AND app_name = 'Appointment Reason')" +
   	        				" GROUP BY e.eli_id" +
   	        				" ORDER BY e.eli_text ASC";
 	  	        }
 	  	        else{
 	  	        	query =  "SELECT *" +
-  	        				" FROM establishment_list_items e" +
+  	        				" FROM establishment_list_items e, realtime_appointment_reasons f" +
   	        				" WHERE e.eli_est_id IS NULL" +
   	        				" AND e.eli_text LIKE '" + appReaSearch + "%'" +
+  	        				" AND f.shortname = e.eli_text" +
   	        				" AND e.eli_app_id IN (SELECT app_id FROM application_lists WHERE e.eli_app_id = app_id AND app_name = 'Appointment Reason')" +
   	        				" GROUP BY e.eli_id" +
   	        				" ORDER BY e.eli_text ASC";

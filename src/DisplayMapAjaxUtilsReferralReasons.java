@@ -44,7 +44,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 	}
 	
 	//Query to acquire total count of people with Referral Reason for all regions
-	private int[][][] referralReasonValueForRegion(Connection con, String estId, String dateRange, int eliId, String regions[]){
+	private int[][][] referralReasonValueForRegion(Connection con, String estId, String dateRange, int eliId, String regions[], String startDate, String endDate){
 		
 		Statement stmt = null;        
 		int total[][][] = new int[15][16][3]; //Multidimensional Array with the first array representing regions, second array representing districts within each region, and the third used for the result
@@ -79,23 +79,8 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 						" FROM realtime_referral_reasons r" +
 						" WHERE r.rer_est_id = "+ estId +
 						" AND r.rer_eli_id = "+ eliId +
-						" AND r.add_reporting_region IN (" + regionQuery +")";
-				
-				if(dateRange != null && dateRange.equalsIgnoreCase("Last Month")){
-					query += " AND r.interval_1_month = 1";
-				}
-				else if(dateRange != null && dateRange.equalsIgnoreCase("Last 3 Months")){
-					query += " AND r.interval_3_month = 1";
-				}
-				else if(dateRange != null && dateRange.equalsIgnoreCase("Last 6 Months")){
-					query += " AND r.interval_6_month = 1";
-				}
-				else if(dateRange != null && dateRange.equalsIgnoreCase("Last 9 Months")){
-					query += " AND r.interval_9_month = 1";
-				}
-				else{
-					query += " AND r.years = '"+ dateRange +"'";
-				}
+						" AND r.add_reporting_region IN (" + regionQuery +")" +
+						" AND r.ref_acceptance_date BETWEEN '"+ startDate +"' AND '"+ endDate +"'";
 						
 				String groupByPart = "";
 	            groupByPart += " GROUP BY r.add_reporting_region";
@@ -113,23 +98,8 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 						" FROM realtime_referral_reasons r" +
 						" WHERE r.rer_est_id IS NULL"+
 						" AND r.rer_eli_id = "+ eliId +
-						" AND r.add_reporting_region IN (" + regionQuery +")";
-				
-				if(dateRange != null && dateRange.equalsIgnoreCase("Last Month")){
-					query += " AND r.interval_1_month = 1";
-				}
-				else if(dateRange != null && dateRange.equalsIgnoreCase("Last 3 Months")){
-					query += " AND r.interval_3_month = 1";
-				}
-				else if(dateRange != null && dateRange.equalsIgnoreCase("Last 6 Months")){
-					query += " AND r.interval_6_month = 1";
-				}
-				else if(dateRange != null && dateRange.equalsIgnoreCase("Last 9 Months")){
-					query += " AND r.interval_9_month = 1";
-				}
-				else{
-					query += " AND r.years = '"+ dateRange +"'";
-				}
+						" AND r.add_reporting_region IN (" + regionQuery +")" +
+						" AND r.ref_acceptance_date BETWEEN '"+ startDate +"' AND '"+ endDate +"'";
 						
 				String groupByPart = "";
 	            groupByPart += " GROUP BY r.add_reporting_region";
@@ -201,7 +171,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 	}
 	
 	
-	private StringBuffer subRegion(Connection con, StringBuffer xmlData, String estId, String dateRange, int eliId, String regionText, String[][] districts, int totalsd[][][], int populationForRegions[]) {
+	private StringBuffer subRegion(Connection con, StringBuffer xmlData, String estId, String dateRange, int eliId, String regionText, String[][] districts, int totalsd[][][], int populationForRegions[], String startDate, String endDate) {
 		
 		int regionNo = 14;
 		int districtNo = 16;
@@ -247,23 +217,8 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 					 " AND r.rer_eli_id = "+ eliId +
 					 " AND r.add_reporting_region = '" + regions[regionID] + "'" +
 				     " AND r.add_reporting_district IN (" + districtQuery +")" +
-				     " AND r.pat_sex = 'M'";
-		
-			if(dateRange != null && dateRange.equalsIgnoreCase("Last Month")){
-				queryMale += " AND r.interval_1_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 3 Months")){
-				queryMale += " AND r.interval_3_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 6 Months")){
-				queryMale += " AND r.interval_6_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 9 Months")){
-				queryMale += " AND r.interval_9_month = 1";
-			}
-			else{
-				queryMale += " AND r.years = '"+ dateRange +"'";
-			}
+				     " AND r.pat_sex = 'M'" +
+					 " AND r.ref_acceptance_date BETWEEN '"+ startDate +"' AND '"+ endDate +"'";
 					
 			String groupByPartMale = "";
 			groupByPartMale += " GROUP BY district";
@@ -280,23 +235,8 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
        			 " AND r.rer_eli_id = "+ eliId +
        			 " AND r.add_reporting_region = '" + regions[regionID] + "'" +
        			 " AND r.add_reporting_district IN (" + districtQuery +")" +
-       			 " AND r.pat_sex = 'F'";
-	
-			if(dateRange != null && dateRange.equalsIgnoreCase("Last Month")){
-				queryFemale += " AND r.interval_1_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 3 Months")){
-				queryFemale += " AND r.interval_3_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 6 Months")){
-				queryFemale += " AND r.interval_6_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 9 Months")){
-				queryFemale += " AND r.interval_9_month = 1";
-			}
-			else{
-				queryFemale += " AND r.years = '"+ dateRange +"'";
-			}
+       			 " AND r.pat_sex = 'F'" +
+				 " AND r.ref_acceptance_date BETWEEN '"+ startDate +"' AND '"+ endDate +"'";
 					
 			String groupByPartFemale = "";
 			groupByPartFemale += " GROUP BY district";
@@ -324,23 +264,8 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 					 " AND r.rer_eli_id = "+ eliId +
 					 " AND r.add_reporting_region = '" + regions[regionID] + "'" +
 				     " AND r.add_reporting_district IN (" + districtQuery +")" +
-				     " AND r.pat_sex = 'M'";
-		
-			if(dateRange != null && dateRange.equalsIgnoreCase("Last Month")){
-				queryMale += " AND r.interval_1_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 3 Months")){
-				queryMale += " AND r.interval_3_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 6 Months")){
-				queryMale += " AND r.interval_6_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 9 Months")){
-				queryMale += " AND r.interval_9_month = 1";
-			}
-			else{
-				queryMale += " AND r.years = '"+ dateRange +"'";
-			}
+				     " AND r.pat_sex = 'M'" +
+					 " AND r.ref_acceptance_date BETWEEN '"+ startDate +"' AND '"+ endDate +"'";
 					
 			String groupByPartMale = "";
 			groupByPartMale += " GROUP BY district";
@@ -357,23 +282,8 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 	       			 " AND r.rer_eli_id = "+ eliId +
 	       			 " AND r.add_reporting_region = '" + regions[regionID] + "'" +
 	       			 " AND r.add_reporting_district IN (" + districtQuery +")" +
-	       			 " AND r.pat_sex = 'F'";
-		
-			if(dateRange != null && dateRange.equalsIgnoreCase("Last Month")){
-				queryFemale += " AND r.interval_1_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 3 Months")){
-				queryFemale += " AND r.interval_3_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 6 Months")){
-				queryFemale += " AND r.interval_6_month = 1";
-			}
-			else if(dateRange != null && dateRange.equalsIgnoreCase("Last 9 Months")){
-				queryFemale += " AND r.interval_9_month = 1";
-			}
-			else{
-				queryFemale += " AND r.years = '"+ dateRange +"'";
-			}
+	       			 " AND r.pat_sex = 'F'" +
+					 " AND r.ref_acceptance_date BETWEEN '"+ startDate +"' AND '"+ endDate +"'";
 					
 			String groupByPartFemale = "";
 			groupByPartFemale += " GROUP BY district";
@@ -463,7 +373,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 	}
 	
 	
-	private StringBuffer writeMap(Connection con, String dateRange, String estId, int eliId, String eliText, String[] regions, String[] regionsAmap, String districts[][], int populationForRegions[]){
+	private StringBuffer writeMap(Connection con, String dateRange, String estId, int eliId, String eliText, String[] regions, String[] regionsAmap, String districts[][], int populationForRegions[], String startDate, String endDate){
 		
 		int totalsd[][][] = new int[15][16][3];
 		double nationalAverage = 0.00d;
@@ -473,12 +383,12 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 		double lowerMiddleQuartileValue = 0.00d;
 		double upperMiddleQuartileValue = 0.00d;
 		//double upperQuartileValue  = 0.00d;
-		DecimalFormat df2 = new DecimalFormat("#0.00");
-		DecimalFormat df3 = new DecimalFormat("#0.00");
+		DecimalFormat df2 = new DecimalFormat("#0.0000000");
+		DecimalFormat df3 = new DecimalFormat("#0.0000000");
 		df2.setRoundingMode(RoundingMode.HALF_DOWN);
 		df3.setRoundingMode(RoundingMode.HALF_UP);
 		
-		totalsd = referralReasonValueForRegion(con, estId, dateRange, eliId, regions);
+		totalsd = referralReasonValueForRegion(con, estId, dateRange, eliId, regions, startDate, endDate);
 		
 		//Acquiring the total based on the population figures for each region
   		for (int m : populationForRegions){
@@ -590,7 +500,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("            			<tooltip_settings enabled=\"true\">");
 			xmlData.append("              				<format>{%REGION_ID}\\n");
 			//xmlData.append("Region: {%Region}\\n");
-			//xmlData.append("Population: {%Pop}{numDecimals:0}\\n");
+			xmlData.append("Population: {%Pop}{numDecimals:0}\\n");
 			xmlData.append("No. with "+eliText+": {%X}{numDecimals:0}\\n");
 			xmlData.append(""+eliText+" Rate: {%Y}{numDecimals:2}</format>");
 			xmlData.append("              				<font bold=\"false\" family=\"Tahoma\" size=\"13\"></font>");
@@ -630,7 +540,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Chaguanas", districts, totalsd, populationForRegions); //Loop of districts within the Chaguanas region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Chaguanas", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Chaguanas region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -649,7 +559,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Couva/Tabaquite/Talparo", districts, totalsd, populationForRegions); //Loop of districts within the Couva region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Couva/Tabaquite/Talparo", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Couva region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -668,7 +578,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Chaguaramas", districts, totalsd, populationForRegions); //Loop of districts within the Chaguaramas region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Chaguaramas", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Chaguaramas region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -687,7 +597,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Mayaro/Rio Claro", districts, totalsd, populationForRegions); //Loop of districts within the Mayaro/Rio Claro region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Mayaro/Rio Claro", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Mayaro/Rio Claro region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -706,7 +616,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Penal/Debe", districts, totalsd, populationForRegions); //Loop of districts within the Penal/Debe region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Penal/Debe", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Penal/Debe region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -725,7 +635,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Point Fortin", districts, totalsd, populationForRegions); //Loop of districts within the Point Fortin region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Point Fortin", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Point Fortin region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -744,7 +654,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Port of Spain", districts, totalsd, populationForRegions); //Loop of districts within the Port-of-Spain region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Port of Spain", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Port-of-Spain region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -763,7 +673,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Princes Town", districts, totalsd, populationForRegions); //Loop of districts within the Princes Town region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Princes Town", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Princes Town region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -782,7 +692,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Siparia", districts, totalsd, populationForRegions); //Loop of districts within the Siparia region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Siparia", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Siparia region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -802,7 +712,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "San Fernando", districts, totalsd, populationForRegions); //Loop of districts within the San Fernando region
+			subRegion(con, xmlData, estId, dateRange, eliId, "San Fernando", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the San Fernando region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -821,7 +731,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Sangre Grande", districts, totalsd, populationForRegions); //Loop of districts within the Sangre Grande region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Sangre Grande", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Sangre Grande region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -840,7 +750,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "San Juan/Laventille", districts, totalsd, populationForRegions); //Loop of districts within the San Juan/Laventille region
+			subRegion(con, xmlData, estId, dateRange, eliId, "San Juan/Laventille", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the San Juan/Laventille region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -859,7 +769,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Tunapuna/Piarco", districts, totalsd, populationForRegions); //Loop of districts within the Tunapuna region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Tunapuna/Piarco", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Tunapuna region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -878,7 +788,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 			xmlData.append("      </data_plot_settings>");
 			xmlData.append("      <data>");
 			xmlData.append("        <series>");
-			subRegion(con, xmlData, estId, dateRange, eliId, "Arima", districts, totalsd, populationForRegions); //Loop of districts within the Arima region
+			subRegion(con, xmlData, estId, dateRange, eliId, "Arima", districts, totalsd, populationForRegions, startDate, endDate); //Loop of districts within the Arima region
 			xmlData.append("        </series>");
 			xmlData.append("      </data>");
 			xmlData.append("    </chart>");
@@ -1016,6 +926,15 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 		
 		//Variables retrieved from jsp file called displaymapforreferralReasons.jsp from the showMyRefReaMap() function
 		String dateRange = request.getParameter("dateRange");
+		String startDate = request.getParameter("startDate");
+		String endDate = request.getParameter("endDate");
+		
+		DateUtils du= new DateUtils();
+		String dateFormat = du.createSQLDate(startDate).toString();
+		startDate = dateFormat;
+		dateFormat = du.createSQLDate(endDate).toString();
+		endDate = dateFormat;
+		
 		int eliId = 0;
 		try {
 			eliId = Integer.parseInt(request.getParameter("rerEliId"));
@@ -1262,7 +1181,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 		out1.println(" 						<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\" align=\"center\">");
 		out1.println(" 							<tr bgColor=\"#FFFFFF\">");
 		out1.println(" 								<td align=\"left\"><img src=\"./images/famfamfamsilk/bigicons/reports.png\" /></td>");
-		out1.println("								<td align=\"center\" width=\"100%\" style=\"margin-left: auto; margin-right: auto\"><p style=\"font-weight:bold; font-size: 15px; color: #006699; text-align: center\">Referral Reason Selected: "+eliText+" || Date Range Selected: "+dateRange+"</td>");
+		out1.println("								<td align=\"center\" width=\"100%\" style=\"margin-left: auto; margin-right: auto\"><p style=\"font-weight:bold; font-size: 15px; color: #006699; text-align: center\"><font color='BLACK'>Referral Reason Selected: </font>"+eliText+" <br/><font color='BLACK'>Date Range Selected: </font>"+dateRange+"<br/><font color='BLACK'>Total Population: </font>1,174,926</td>");
 		out1.println("								<td align=\"right\"><a href=\"./displaymapforreferralreasons.jsp\"><img src=\"./images/famfamfamsilk/bigicons/arrow_left.png\" onMouseOver=\"toolTip('Back');\" onMouseOut=\"toolTip();\" border=\"0\" /></a></td>");
 		out1.println("								<td align=\"right\"><a href=\"./chooseyourmap.jsp\"><img src=\"./images/famfamfamsilk/bigicons/arrow_up.png\" onMouseOver=\"toolTip('Back to Choose Your Map');\" onMouseOut=\"toolTip();\" border=\"0\" /></a></td>");
 		out1.println(" 							</tr>");
@@ -1280,7 +1199,7 @@ public class DisplayMapAjaxUtilsReferralReasons extends HttpServlet {
 		out1.println("			map.width = 950;");
 		out1.println("			map.height = 660;");
 		
-		xmlData = this.writeMap(con, dateRange, estId, eliId, eliText, regions, regionsAmap, districts, populationForRegions);
+		xmlData = this.writeMap(con, dateRange, estId, eliId, eliText, regions, regionsAmap, districts, populationForRegions, startDate, endDate);
 		
 		String xmlDataReplaced = xmlData.toString();
 		xmlDataReplaced = xmlData.toString().replaceAll("\"", "'");

@@ -6,7 +6,7 @@
   	<!--<param-value>jdbc:mysql://localhost:3310/cellma?autoReconnect=true</param-value>-->
   	<!--<param-value>jdbc:mysql://localhost:3310/cellma_mt_hope_04_09_2014_bup?autoReconnect=true</param-value>-->
  	<!-- <param-value>jdbc:mysql://localhost:3310/cellma_bvi_05_09_2013?autoReconnect=true</param-value> -->
-  	<param-value>jdbc:mysql://localhost:3310/cellma_nwrha_24_10_2014?autoReconnect=true</param-value>
+  	<param-value>jdbc:mysql://localhost:3310/cellma_18_02_2016?autoReconnect=true</param-value>
  </context-param>
  <context-param>
   <param-name>username</param-name>
@@ -45,6 +45,18 @@
     <display-name>This is the display name of my J2EE component</display-name>
     <servlet-name>DisplayMapAjaxUtilsDiagnosis</servlet-name>
     <servlet-class>DisplayMapAjaxUtilsDiagnosis</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AjaxUtilsPresentingComplaints</servlet-name>
+    <servlet-class>AjaxUtilsPresentingComplaints</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DisplayMapAjaxUtilsPresentingComplaints</servlet-name>
+    <servlet-class>DisplayMapAjaxUtilsPresentingComplaints</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
@@ -92,6 +104,14 @@
     <servlet-mapping>
     <servlet-name>DisplayMapAjaxUtilsDiagnosis</servlet-name>
     <url-pattern>/DisplayMapAjaxUtilsDiagnosis.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AjaxUtilsPresentingComplaints</servlet-name>
+    <url-pattern>/AjaxUtilsPresentingComplaints.do</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>DisplayMapAjaxUtilsPresentingComplaints</servlet-name>
+    <url-pattern>/DisplayMapAjaxUtilsPresentingComplaints.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DisplayMapAjaxUtilsReferralReasons</servlet-name>

@@ -59,15 +59,15 @@
 	}
 	
 	function showMyDiagnosisMap(qucId, qucText){
-        var dateRangeControl = document.getElementById("dateRange");
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+		var dateRangeValue = startDate + " - " + endDate;
 		
-		var dateRangeValue = dateRangeControl.value;
-		
-		if(dateRangeValue == ""){
+		if(startDate == "" || endDate == ""){
 			alert("Please select a date period");
 		}
 		else{
-	        var url = "./DisplayMapAjaxUtilsDiagnosis.do?dateRange=" + dateRangeValue + "&qsId=" + qucId + "&qsText=" +qucText;
+	        var url = "./DisplayMapAjaxUtilsDiagnosis.do?dateRange=" + dateRangeValue + "&qsId=" + qucId + "&qsText=" +qucText + "&startDate=" +startDate + "&endDate=" +endDate;
 	        location.href=url;
 	        $( "#searchinfo" ).fadeOut( "slow", function() {
 	    		$("#loading").css({"display":"block"});
@@ -79,7 +79,7 @@
 
 		var startSearchControl = document.getElementById('search');
 		var resultsFromSearch = document.getElementById('searchResults');
-		var dateRangeControl = document.getElementById('dateRange');
+		var dateRangeControl = document.getElementById('startDate');
 		
 		startSearchControl.value = "";
 		dateRangeControl.value = "";
@@ -126,26 +126,19 @@
 					<br />
 					<table>
 						<tr>
-							<td class="slimDataBold2">Date Period</td>
-							<td>&nbsp;</td>
+							<td class="slimDataBold2">Start Date</td>
+							<td class="slimDataBold2">End Date</td>
 							<td class="slimDataBold2" align="left">&nbsp;Enter a Diagnosis</td>
 						</tr>
 					<tr>
 						<td>
-							<select name="dateRange" id="dateRange">
-									<option value="">Please select a date period</option>
-									<option value="Last month">Last month</option>
-									<option value="Last 3 months">Last 3 months</option>
-									<option value="Last 6 months">Last 6 months</option>
-									<option value="Last 9 months">Last 9 months</option>
-									<c:if test="${not empty sessionScope.yearListDiagnosis}">
-										<c:forEach items="${sessionScope.yearListDiagnosis}" var="y">
-											<option value="${y}">${y}</option>
-										</c:forEach>
-									</c:if>
-							</select>	
+							<input type="text" name="startDate" id="startDate"/>
+							<a href="javascript:cal1.popup();"><img src="./images/cal/cal.gif" width="16" height="16" border="0" alt="Pick the date"></a>
 						</td>
-						<td onClick="javascript:clearSearch();"></td>
+						<td>
+							<input type="text" name="endDate" id="endDate"/>
+							<a href="javascript:cal2.popup();"><img src="./images/cal/cal.gif" width="16" height="16" border="0" alt="Pick the date"></a>
+						</td>
 						<td align="left"><input type="text" style="border: 1px solid #BFBFBF" id="search" value="" onKeyUp="javascript:livesearch();" size="30"  maxlength="255" />&nbsp;&nbsp;<a style="font-size: 15px" href="javascript:clearSearch();">Clear search</a></td>
 					</tr>
 					<tr>
@@ -175,3 +168,18 @@
 </table>
 </form>
 </body>
+
+<script type="text/javascript" >
+
+	// create calendar object(s) just after form tag closed
+	// specify form element as the only parameter (document.forms['formname'].elements['inputname']);
+	// note: you can have as many calendar objects as you need for your application
+	var cal1 = new calendar1(document.forms['frm1'].elements['startDate']);
+	cal1.year_scroll = true;
+	cal1.time_comp = false;	
+	
+	var cal2 = new calendar1(document.forms['frm1'].elements['endDate']);
+	cal2.year_scroll = true;
+	cal2.time_comp = false;	
+
+</script>
