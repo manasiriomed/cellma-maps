@@ -382,7 +382,7 @@ public class DisplayMapAjaxUtilsDiagnosis extends HttpServlet {
   		}
   		
   		//Calculation of the Country Rate of people with Diagnosis
-  		nationalAverage = (sumRegions/(double)sum) * 10000;
+  		nationalAverage = (sumRegions/(double)sum) * 1000;
   		
   		//Converting Approach for nationalAverage
   		double nationalAverageDD = new Double(df2.format(nationalAverage));
