@@ -78,7 +78,7 @@ public class DisplayMapAjaxUtilsPresentingComplaints extends HttpServlet {
 				query =  "SELECT r.add_reporting_region as region, COUNT(*) AS total_count" +
 						" FROM realtime_presenting_problems r" +
 						" WHERE r.rrc_est_id = "+ estId +
-						" AND r.rrc_answered_id = "+ qucId +
+						" AND r.rrc_quo_id = "+ qucId +
 						" AND r.add_reporting_region IN (" + regionQuery +")" +
 						" AND r.rrc_clinic_date BETWEEN '"+ startDate +"' AND '"+ endDate +"'";
 						
@@ -96,7 +96,7 @@ public class DisplayMapAjaxUtilsPresentingComplaints extends HttpServlet {
 				query =  "SELECT r.add_reporting_region as region, COUNT(*) AS total_count" +
 						" FROM realtime_presenting_problems r" +
 						" WHERE r.rrc_est_id IS NULL" +
-						" AND r.rrc_answered_id = "+ qucId +
+						" AND r.rrc_quo_id = "+ qucId +
 						" AND r.add_reporting_region IN (" + regionQuery +")" +
 						" AND r.rrc_clinic_date BETWEEN '"+ startDate +"' AND '"+ endDate +"'";
 						
@@ -204,7 +204,7 @@ public class DisplayMapAjaxUtilsPresentingComplaints extends HttpServlet {
 			queryMale =  "SELECT r.add_reporting_district as district, COUNT(*) AS total_count" +
 					 " FROM realtime_presenting_problems r" +
 					 " WHERE r.rrc_est_id = "+ estId +
-					 " AND r.rrc_answered_id = "+ qucId +
+					 " AND r.rrc_quo_id = "+ qucId +
 					 " AND r.add_reporting_region = '" + regions[regionID] + "'" +
 				     " AND r.add_reporting_district IN (" + districtQuery +")" +
 				     " AND r.pat_sex = 'M'" +
@@ -222,7 +222,7 @@ public class DisplayMapAjaxUtilsPresentingComplaints extends HttpServlet {
 	        queryFemale = "SELECT r.add_reporting_district as district, COUNT(*) AS total_count" +
 	        			 " FROM realtime_presenting_problems r" +
 	        			 " WHERE r.rrc_est_id = "+ estId +
-	        			 " AND r.rrc_answered_id = "+ qucId +
+	        			 " AND r.rrc_quo_id = "+ qucId +
 	        			 " AND r.add_reporting_region = '" + regions[regionID] + "'" +
 	        			 " AND r.add_reporting_district IN (" + districtQuery +")" +
 	        			 " AND r.pat_sex = 'F'" +
@@ -242,7 +242,7 @@ public class DisplayMapAjaxUtilsPresentingComplaints extends HttpServlet {
 			queryMale =  "SELECT r.add_reporting_district as district, COUNT(*) AS total_count" +
 					 " FROM realtime_presenting_problems r" +
 					 " WHERE r.rrc_est_id IS NULL " +
-					 " AND r.rrc_answered_id = "+ qucId +
+					 " AND r.rrc_quo_id = "+ qucId +
 					 " AND r.add_reporting_region = '" + regions[regionID] + "'" +
 				     " AND r.add_reporting_district IN (" + districtQuery +")" +
 				     " AND r.pat_sex = 'M'" +
@@ -260,7 +260,7 @@ public class DisplayMapAjaxUtilsPresentingComplaints extends HttpServlet {
 			queryFemale = "SELECT r.add_reporting_district as district, COUNT(*) AS total_count" +
        			 " FROM realtime_presenting_problems r" +
        			 " WHERE r.rrc_est_id IS NULL" +
-       			 " AND r.rrc_answered_id = "+ qucId +
+       			 " AND r.rrc_quo_id = "+ qucId +
        			 " AND r.add_reporting_region = '" + regions[regionID] + "'" +
        			 " AND r.add_reporting_district IN (" + districtQuery +")" +
        			 " AND r.pat_sex = 'F'" +
@@ -940,20 +940,20 @@ public class DisplayMapAjaxUtilsPresentingComplaints extends HttpServlet {
   	 	//Array for Population
   	    int populationForRegions[] = new int[14]; //rows[]||columns[]
 
-  	    populationForRegions[0] = 83692;
-  	    populationForRegions[1] = 178828;
-  	    populationForRegions[2] = 12966;
-  	  	populationForRegions[3] = 35683;
-  	  	populationForRegions[4] = 83699;
-  		populationForRegions[5] = 20318;
-  		populationForRegions[6] = 37522;
-  		populationForRegions[7] = 102507;
-  		populationForRegions[8] = 87075;
-  		populationForRegions[9] = 48976;
-  		populationForRegions[10] = 75863;
-  		populationForRegions[11] = 157827;
-  		populationForRegions[12] = 216293;
-  		populationForRegions[13] = 33677;
+  	    populationForRegions[0] = 61897;
+  	    populationForRegions[1] = 152483;
+  	    populationForRegions[2] = 86805;
+  	  	populationForRegions[3] = 30298;
+  	  	populationForRegions[4] = 77756;
+  		populationForRegions[5] = 17755;
+  		populationForRegions[6] = 37965;
+  		populationForRegions[7] = 85682;
+  		populationForRegions[8] = 77010;
+  		populationForRegions[9] = 48784;
+  		populationForRegions[10] = 58311;
+  		populationForRegions[11] = 136759;
+  		populationForRegions[12] = 170767;
+  		populationForRegions[13] = 28310;
   		
   	 	//2D Array for Districts with the first array indicating region that the district is in (second array) 
   	    String districts[][] = new String[14][16]; //rows[]||columns[]
@@ -1154,7 +1154,7 @@ public class DisplayMapAjaxUtilsPresentingComplaints extends HttpServlet {
 		out1.println(" 						<table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\" align=\"center\">");
 		out1.println(" 							<tr bgColor=\"#FFFFFF\">");
 		out1.println(" 								<td align=\"left\"><img src=\"./images/famfamfamsilk/bigicons/reports.png\" /></td>");
-		out1.println("								<td align=\"center\" width=\"100%\" style=\"margin-left: auto; margin-right: auto\"><p style=\"font-weight:bold; font-size: 15px; color: #006699; text-align: center\"><font color='BLACK'>Presenting Complaint Selected: </font>"+qsText+"<br/><font color='BLACK'>Date Range Selected: </font>"+dateRange+"<br/><font color='BLACK'>Total Population: </font>1,174,926</td>");
+		out1.println("								<td align=\"center\" width=\"100%\" style=\"margin-left: auto; margin-right: auto\"><p style=\"font-weight:bold; font-size: 15px; color: #006699; text-align: center\"><font color='BLACK'>Presenting Complaint Selected: </font>"+qsText+"<br/><font color='BLACK'>Date Range Selected: </font>"+dateRange+"<br/><font color='BLACK'>Total Population: </font>1,114,772</td>");
 		out1.println("								<td align=\"right\"><a href=\"./displaymapforpresentingcomplaints.jsp\"><img src=\"./images/famfamfamsilk/bigicons/arrow_left.png\" onMouseOver=\"toolTip('Back');\" onMouseOut=\"toolTip();\" border=\"0\" /></a></td>");
 		out1.println("								<td align=\"right\"><a href=\"./chooseyourmap.jsp\"><img src=\"./images/famfamfamsilk/bigicons/arrow_up.png\" onMouseOver=\"toolTip('Back to Choose Your Map');\" onMouseOut=\"toolTip();\" border=\"0\" /></a></td>");
 		out1.println(" 							</tr>");

@@ -88,7 +88,7 @@ public class AjaxUtilsPresentingComplaints extends HttpServlet {
 	  	        if(estId != null){
 	  	        	query = "SELECT *" +
 						   " FROM question_options qo, realtime_presenting_problems rd " +
-					 	   " WHERE qo.quo_text_summary = rd.shortname" +
+					 	   " WHERE qo.quo_id = rd.rrc_quo_id" +
 					       " AND qo.quo_est_id = "+ estId +
 					       " AND qo.quo_text_summary LIKE '" + diagSearch + "%'" +
 					       " GROUP BY rd.shortname";
@@ -96,7 +96,7 @@ public class AjaxUtilsPresentingComplaints extends HttpServlet {
 	  	        else{
 	  	        	query = "SELECT *" +
 							   " FROM question_options qo, realtime_presenting_problems rd " +
-						 	   " WHERE qo.quo_text_summary = rd.shortname" +
+						 	   " WHERE qo.quo_id = rd.rrc_quo_id" +
 						       " AND qo.quo_text_summary LIKE '" + diagSearch + "%'" +
 						       " GROUP BY rd.shortname";
 	  	        }
