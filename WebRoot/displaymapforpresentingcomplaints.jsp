@@ -48,8 +48,7 @@
 						
 					if(myRequest.readyState == 4) {
 						if(myRequest.status == 200) {
-							dataReturned(myRequest.responseText);
-							document.getElementById('searchResults').innerHTML = myRequest.responseText;
+							document.getElementById('searchResults').innerHTML = myRequest.responseText;	
 						}
 					}
 										
@@ -89,54 +88,7 @@
 		resultsFromSearch.innerHTML = "";
 		startSearchControl.innerHTML = "";
 	}
-	
-	function dataReturned(data){
-		if(data.includes("No Data returned for this criteria")){
-			$("#searchingMessage").hide();
-			$("#noDataText").show();
-		}
-		else{
-			$("#searchingMessage").hide();
-			$("#noDataText").hide();
-		}
-	}
 
-</script>
-<script>
-	$(document).ready(function(){
-		$('#search').on('keyup keypress', function(event) {
-		     var searchData = $("#search").val();
-		     
-		     if(searchData.length >= 3){
-		    	 $("#searchingMessage").show();
-		    	 dots();
-		    	 $("#noDataText").hide();
-		    	 $("#minText").hide();
-		    	 livesearch();
-		     }
-		     else{
-		    	 $("#noDataText").hide();
-		    	 $("#searchingMessage").hide();
-		    	 $("#minText").show();
-		     }    
-		});	
-	});
-	
-	function dots(){
-	    window.dotsGoingUp = true;
-	    var dots = window.setInterval( function() {
-	        var wait = document.getElementById("wait");
-	        if ( window.dotsGoingUp ) 
-	            wait.innerHTML += ".";
-	        else {
-	            wait.innerHTML = wait.innerHTML.substring(1, wait.innerHTML.length);
-	            if ( wait.innerHTML === "")
-	                window.dotsGoingUp = true;
-	        }
-	        if ( wait.innerHTML.length > 9 )
-	            window.dotsGoingUp = false;
-	        }, 300);
-	};
 </script>
 </head>
 
@@ -187,20 +139,12 @@
 							<input type="text" name="endDate" id="endDate"/>
 							<a href="javascript:cal2.popup();"><img src="./images/cal/cal.gif" width="16" height="16" border="0" alt="Pick the date"></a>
 						</td>
-						<td align="left"><input type="text" style="border: 1px solid #BFBFBF" id="search" value="" size="30"  maxlength="255" />&nbsp;&nbsp;<a style="font-size: 15px" href="javascript:clearSearch();">Clear search</a></td>
+						<td align="left"><input type="text" style="border: 1px solid #BFBFBF" id="search" value="" onKeyUp="javascript:livesearch();" size="30"  maxlength="255" />&nbsp;&nbsp;<a style="font-size: 15px" href="javascript:clearSearch();">Clear search</a></td>
 					</tr>
 					<tr>
 						<td onClick="javascript:clearSearch();">&nbsp;</td>
 						<td onClick="javascript:clearSearch();">&nbsp;</td>
-						<td>
-							<div id="minText" style="display: block;"><p style='font-size: 15px'>Please enter a minimum of 3 characters to search</p></div>
-							<div id="searchingMessage" align="left" style="display: none;">
-   								<img src="./images/loading-wheel.gif" style=" width: 60px;"><br/>
-   								<span>Searching</span>
-								<span id="wait" ></span>
-							</div>
-							<div id="searchResults" style="width:299px"></div>
-						</td>
+						<td><div id="searchResults" style="width:299px"></div></td>
 					</tr>	
 				</table>
 				</div>

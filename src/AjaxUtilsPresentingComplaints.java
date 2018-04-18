@@ -134,12 +134,12 @@ public class AjaxUtilsPresentingComplaints extends HttpServlet {
 	  	    
 	  	    out.println("</table>");
 		}
-  	   /* else if(diagSearch.length() >= 1 && diagSearch.length() < 3){
-			out.println("<p id='minText' style='font-size: 15px'>Please enter a minimum of 3 characters to search</p>");	
-		}*/
+  	    else if(diagSearch.length() >= 1 && diagSearch.length() < 3){
+			out.println("<p style='font-size: 15px'>Please enter a minimum of 3 characters to search</p>");	
+		}
 		
 		if(flag){
-			out.println("<p id='noDataText' style='font-size: 15px; text-align: left'>No Data returned for this criteria</p>");	
+			out.println("<p style='font-size: 15px; text-align: left'>No Data returned for this criteria</p>");	
 		}
   	    
 		out.flush();
