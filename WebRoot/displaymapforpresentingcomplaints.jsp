@@ -90,6 +90,14 @@
 	}
 
 </script>
+
+<script>
+	$(document).ready(function(){
+		$('#search').on('keyup keypress', function(event) {
+	    	  livesearch();
+		});	
+	});
+</script>
 </head>
 
 <body>
